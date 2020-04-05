@@ -1,9 +1,10 @@
 {
-  "name": "@ztwx/form",
+  "name": "@ztwx/utils",
   "version": "0.0.1",
   "description": "browser form validation",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "pagehome":"https://github.com/zhantewei2/ztwx-utils",
   "scripts": {
     "package": "tsc --outDir lib -d"
   },
