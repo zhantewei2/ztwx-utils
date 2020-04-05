@@ -1,0 +1,20 @@
+{
+  "name": "@ztwx/form",
+  "version": "0.0.1",
+  "description": "browser form validation",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "package": "tsc --outDir lib -d"
+  },
+  "author": "zhantewei",
+  "license": "ISC",
+  "dependencies": {
+    "@danmarshall/ts-docs-gen": "^0.2.0",
+    "@types/node": "^13.9.8",
+    "@types/webpack-env": "^1.15.1",
+    "ts-file-parser": "0.0.16",
+    "tslib": "^1.11.1",
+    "typescript": "^3.8.3"
+  }
+}
