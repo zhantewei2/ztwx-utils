@@ -16,7 +16,7 @@ const load=({
 }:LoadParams)=>{
   return new Promise((resolve,reject)=>{
     const script:any=document.createElement(tag);
-    const body:HTMLElement|null=document.querySelector('body');
+    const body:HTMLElement|any=document.querySelector('body');
     id=id||(address.match(/[^\/]*$/)||address).toString();
     //filter if exists
     if(document.getElementById(id))return resolve();
