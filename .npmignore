@@ -1,0 +1,7 @@
+package/
+package-local.json
+yarn.lock
+*.error
+.idea
+.DS_Store
+__pycache__/

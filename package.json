@@ -1,10 +1,10 @@
 {
   "name": "@ztwx/utils",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "browser form validation",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "pagehome":"https://github.com/zhantewei2/ztwx-utils",
+  "pagehome": "https://github.com/zhantewei2/ztwx-utils",
   "scripts": {
     "package": "tsc --outDir lib -d"
   },
@@ -12,10 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@danmarshall/ts-docs-gen": "^0.2.0",
-    "@types/node": "^13.9.8",
+    "@types/node": "^13.11.1",
     "@types/webpack-env": "^1.15.1",
     "ts-file-parser": "0.0.16",
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
-  }
+  },
+  "sideEffects": []
 }

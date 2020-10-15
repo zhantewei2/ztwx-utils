@@ -1,1 +1,1 @@
-export declare const disDate: (params: string | number | Date) => string;
+export declare const disDate: (params: string | Date | number) => string;
