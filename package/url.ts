@@ -8,7 +8,7 @@ export class QueryParams{
     if(!obj)return str;
     let value:any;
     for(let i in obj){
-      value=obj[i];
+      value=encodeURIComponent(obj[i]);
       if(value||value===0)str+=i+'='+value+'&';
     }
     return str.slice(0,-1);
