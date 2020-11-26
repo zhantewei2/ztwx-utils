@@ -1,4 +1,4 @@
-const httpHeaders: Record<string, string> = {
+export const httpHeaders: Record<string, string> = {
     'html': 'text/html;charset=utf8',
     'txt': 'text/html',
     'css': 'text/css',
@@ -17,4 +17,4 @@ const httpHeaders: Record<string, string> = {
     'mp4': 'video/mpeg4',
     'ogg': 'application/ogg'
 };
-const getContentType = (extension: string) => httpHeaders[extension] || "application/octet-stream";
+export const getContentType = (extension: string) => httpHeaders[extension] || "application/octet-stream";

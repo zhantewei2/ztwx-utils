@@ -2,7 +2,7 @@ export declare class QueryParams {
     /**
      * encode queryparams
      */
-    encode: (obj: Record<any, any>) => string;
+    encode: (obj: Record<any, any>, URIComponent?: boolean) => string;
     /**
      * decode queryparams
      */

@@ -3,12 +3,12 @@ export class QueryParams{
   /**
    * encode queryparams
    */
-  encode=(obj:Record<any,any>):string=>{
+  encode=(obj:Record<any,any>,URIComponent:boolean=true):string=>{
     let str:string='';
     if(!obj)return str;
     let value:any;
     for(let i in obj){
-      value=encodeURIComponent(obj[i]);
+      value=URIComponent?encodeURIComponent(obj[i]):obj[i];
       if(value||value===0)str+=i+'='+value+'&';
     }
     return str.slice(0,-1);
