@@ -1,4 +1,4 @@
-export declare const compressDataUrl: (b64: string) => Promise<string>;
+export declare const compressDataUrl: (b64: string, fileType?: string) => Promise<string>;
 export declare const dataURLtoBlob: (dataurl: any) => Promise<unknown>;
 export declare const dataURLtoArrayBuffer: (base64String: string) => any;
 export declare class FileCompress {

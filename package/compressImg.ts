@@ -1,4 +1,5 @@
 import {getUniqueId} from "./uniqueId";
+import {getExtension} from "./contentType";
 
 const switchQuality = (size: any) => {
     size = size / 1024;
@@ -13,7 +14,7 @@ const switchQuality = (size: any) => {
     return undefined;
 };
 
-export const compressDataUrl = (b64: string): Promise<string> => {
+export const compressDataUrl = (b64: string,fileType:string="image/jpeg"): Promise<string> => {
     return new Promise((resolve, reject) => {
         const canvas: any = document.createElement('canvas');
         const ctx: any = canvas.getContext('2d');
@@ -44,7 +45,7 @@ export const compressDataUrl = (b64: string): Promise<string> => {
             const _h: number = canvas.height = h / percent;
             const _w: number = canvas.width = w / percent;
             ctx.drawImage(img, 0, 0, _w, _h);
-            resolve(canvas.toDataURL('image/jpeg', switchQuality(b64.length)));
+            resolve(canvas.toDataURL(fileType, switchQuality(b64.length)));
         };
         img.onerror = (e) => reject(e);
         img.src = b64;
@@ -99,13 +100,13 @@ export class FileCompress {
     compressImgFromFile(file: File): Promise<[string, string]> {
         let filename = file.name;
         if (!this.checkFileFormat(file.name)) return Promise.reject([filename, "image format error"]);
-        filename = getUniqueId() + ".jpg";
+        filename = getUniqueId() +"."+ getExtension(filename);
         return new Promise((resolve, reject) => {
             const fr: FileReader = new FileReader();
             fr.onload = () => {
                 const resultB64 = fr.result;
                 if (resultB64 && typeof (resultB64) === "string") {
-                    compressDataUrl(resultB64)
+                    compressDataUrl(resultB64,file.type)
                         .then((b64compressed: string) => resolve([filename, b64compressed]))
                         .catch((e: any) => reject([filename, e]))
                 } else {

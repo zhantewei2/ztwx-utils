@@ -18,3 +18,8 @@ export const httpHeaders: Record<string, string> = {
     'ogg': 'application/ogg'
 };
 export const getContentType = (extension: string) => httpHeaders[extension] || "application/octet-stream";
+export const getExtension=(filename:string)=>{
+    const pointLast=filename.lastIndexOf(".");
+    if(pointLast&&pointLast<filename.length-1)return filename.slice(pointLast+1);
+    return "";
+}
