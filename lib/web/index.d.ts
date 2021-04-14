@@ -1,3 +1,2 @@
 export * from "./scroll";
-export * from "./scrollIntersection";
-export * from "./excuteAfterConnected";
+export * from "./exec";

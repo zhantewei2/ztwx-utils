@@ -1,3 +1,4 @@
+// @ts-ignore
 export * from "./uniqueId";
 export * from "./compressImg";
 export * from "./animation";
