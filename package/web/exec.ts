@@ -1,12 +1,9 @@
 export const copy=(str:string)=>{
-    const txt:any=window.getSelection();
-    txt.removeAllRanges();
-    const div=document.createElement("div");
-    div.style.cssText="visibility:hidden;position:absolute;top:0;left:0;transform:translate3d(-100%,-100%,0)";
-    div.innerText=str;
-    document.body.appendChild(div);
-    txt.selectAllChildren(div);
+    const input=document.createElement("input");
+    input.style.cssText="position:fixed;top:0;left:0;transform:translate3d(-100%,-100%,0)";
+    input.value=str;
+    document.body.appendChild(input);
+    input.select();
     document.execCommand("copy");
-    txt.removeAllRanges();
-    document.body.removeChild(div);
+    document.body.removeChild(input);
 }
