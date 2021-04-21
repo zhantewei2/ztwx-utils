@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.NzxAnimation = void 0;
 var NzxAnimation = /** @class */ (function () {
     function NzxAnimation(element, transitionClass) {
         this.leaving = false;
@@ -28,4 +31,4 @@ var NzxAnimation = /** @class */ (function () {
     };
     return NzxAnimation;
 }());
-export { NzxAnimation };
+exports.NzxAnimation = NzxAnimation;

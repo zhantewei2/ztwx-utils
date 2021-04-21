@@ -1,4 +1,7 @@
-export var httpHeaders = {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getExtension = exports.getContentType = exports.httpHeaders = void 0;
+exports.httpHeaders = {
     'html': 'text/html;charset=utf8',
     'txt': 'text/html',
     'css': 'text/css',
@@ -17,8 +20,8 @@ export var httpHeaders = {
     'mp4': 'video/mpeg4',
     'ogg': 'application/ogg'
 };
-export var getContentType = function (extension) { return httpHeaders[extension] || "application/octet-stream"; };
-export var getExtension = function (filename) {
+exports.getContentType = function (extension) { return exports.httpHeaders[extension] || "application/octet-stream"; };
+exports.getExtension = function (filename) {
     var pointLast = filename.lastIndexOf(".");
     if (pointLast && pointLast < filename.length - 1)
         return filename.slice(pointLast + 1);

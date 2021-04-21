@@ -1,4 +1,7 @@
-import { loadCss, loadJs } from "./loadJs";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Library = exports.LibraryItem = void 0;
+var loadJs_1 = require("./loadJs");
 var LibraryItem = /** @class */ (function () {
     function LibraryItem(id, globalVariableName) {
         this.loadSuccess = false;
@@ -43,7 +46,7 @@ var LibraryItem = /** @class */ (function () {
         var _this = this;
         if (this.isloading || this.loadSuccess || this.loadError)
             return;
-        var method = type === "css" ? loadCss : loadJs;
+        var method = type === "css" ? loadJs_1.loadCss : loadJs_1.loadJs;
         this.isloading = true;
         method.call(method, fileAddress, type)
             .then(function () {
@@ -59,7 +62,7 @@ var LibraryItem = /** @class */ (function () {
     };
     return LibraryItem;
 }());
-export { LibraryItem };
+exports.LibraryItem = LibraryItem;
 var Library = /** @class */ (function () {
     function Library() {
         this.lib = {};
@@ -92,4 +95,4 @@ var Library = /** @class */ (function () {
     };
     return Library;
 }());
-export { Library };
+exports.Library = Library;

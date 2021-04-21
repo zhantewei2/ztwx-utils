@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ExcuteAfterConnected = void 0;
 var ExcuteAfterConnected = /** @class */ (function () {
     function ExcuteAfterConnected() {
         var _this = this;
@@ -44,4 +47,4 @@ var ExcuteAfterConnected = /** @class */ (function () {
     }
     return ExcuteAfterConnected;
 }());
-export { ExcuteAfterConnected };
+exports.ExcuteAfterConnected = ExcuteAfterConnected;

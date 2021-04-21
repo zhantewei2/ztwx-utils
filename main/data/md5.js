@@ -1,4 +1,7 @@
-export var strToMd5 = function (content) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.strToMd5 = void 0;
+exports.strToMd5 = function (content) {
     var hex_chr = "0123456789abcdef";
     function rhex(num) {
         var str = "";

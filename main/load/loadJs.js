@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.loadCss = exports.loadJs = void 0;
 var load = function (_a) {
     var address = _a.address, tag = _a.tag, rel = _a.rel, remove = _a.remove, id = _a.id;
     return new Promise(function (resolve, reject) {
@@ -28,7 +31,7 @@ var load = function (_a) {
         body.appendChild(script);
     });
 };
-export var loadJs = function (address, id, remove) {
+exports.loadJs = function (address, id, remove) {
     if (remove === void 0) { remove = true; }
     return load({
         address: address,
@@ -37,7 +40,7 @@ export var loadJs = function (address, id, remove) {
         remove: remove,
     });
 };
-export var loadCss = function (address, id, remove) {
+exports.loadCss = function (address, id, remove) {
     if (remove === void 0) { remove = false; }
     return load({
         address: address,

@@ -1,5 +1,8 @@
-import { getUniqueId } from "./uniqueId";
-import { getExtension } from "./contentType";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.fileCompress = exports.FileCompress = exports.dataURLtoArrayBuffer = exports.dataURLtoBlob = exports.compressDataUrl = void 0;
+var uniqueId_1 = require("./uniqueId");
+var contentType_1 = require("./contentType");
 var switchQuality = function (size) {
     size = size / 1024;
     if (size < 300)
@@ -20,7 +23,7 @@ var switchQuality = function (size) {
         return 0.1;
     return undefined;
 };
-export var compressDataUrl = function (b64, fileType) {
+exports.compressDataUrl = function (b64, fileType) {
     if (fileType === void 0) { fileType = "image/jpeg"; }
     return new Promise(function (resolve, reject) {
         var canvas = document.createElement('canvas');
@@ -61,7 +64,7 @@ export var compressDataUrl = function (b64, fileType) {
         img.src = b64;
     });
 };
-export var dataURLtoBlob = function (dataurl) {
+exports.dataURLtoBlob = function (dataurl) {
     return new Promise(function (resolve, reject) {
         var err = false;
         var data;
@@ -79,7 +82,7 @@ export var dataURLtoBlob = function (dataurl) {
         err ? reject() : resolve(data);
     });
 };
-export var dataURLtoArrayBuffer = function (base64String) {
+exports.dataURLtoArrayBuffer = function (base64String) {
     var padding = '='.repeat((4 - base64String.length % 4) % 4);
     var base64 = (base64String + padding)
         .replace(/-/g, '+')
@@ -106,13 +109,13 @@ var FileCompress = /** @class */ (function () {
         var filename = file.name;
         if (!this.checkFileFormat(file.name))
             return Promise.reject([filename, "image format error"]);
-        filename = getUniqueId() + "." + getExtension(filename);
+        filename = uniqueId_1.getUniqueId() + "." + contentType_1.getExtension(filename);
         return new Promise(function (resolve, reject) {
             var fr = new FileReader();
             fr.onload = function () {
                 var resultB64 = fr.result;
                 if (resultB64 && typeof (resultB64) === "string") {
-                    compressDataUrl(resultB64, file.type)
+                    exports.compressDataUrl(resultB64, file.type)
                         .then(function (b64compressed) { return resolve([filename, b64compressed]); })
                         .catch(function (e) { return reject([filename, e]); });
                 }
@@ -125,5 +128,5 @@ var FileCompress = /** @class */ (function () {
     };
     return FileCompress;
 }());
-export { FileCompress };
-export var fileCompress = new FileCompress();
+exports.FileCompress = FileCompress;
+exports.fileCompress = new FileCompress();

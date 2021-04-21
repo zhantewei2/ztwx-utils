@@ -1,10 +1,13 @@
-import { getScrollParent, getScrollDistanceFromNode, checkAndSetOffsetNode } from "./scroll";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createScrollIntersection = exports.VisibleScrollItem = void 0;
+var scroll_1 = require("./scroll");
 var VisibleScrollItem = /** @class */ (function () {
     function VisibleScrollItem() {
     }
     return VisibleScrollItem;
 }());
-export { VisibleScrollItem };
+exports.VisibleScrollItem = VisibleScrollItem;
 var VisibleScroll = /** @class */ (function () {
     function VisibleScroll() {
         var _this = this;
@@ -18,7 +21,7 @@ var VisibleScroll = /** @class */ (function () {
     }
     VisibleScroll.prototype.observe = function (el, observerRun) {
         var _this = this;
-        var distanceTop = getScrollDistanceFromNode(el, this.scrollParent);
+        var distanceTop = scroll_1.getScrollDistanceFromNode(el, this.scrollParent);
         var item = {
             el: el,
             distanceTop: distanceTop,
@@ -38,8 +41,8 @@ var VisibleScroll = /** @class */ (function () {
     };
     VisibleScroll.prototype.mounted = function (mountedEl) {
         var _this = this;
-        this.scrollParent = getScrollParent(mountedEl);
-        checkAndSetOffsetNode(this.scrollParent);
+        this.scrollParent = scroll_1.getScrollParent(mountedEl);
+        scroll_1.checkAndSetOffsetNode(this.scrollParent);
         var scrollTop;
         var scrollBottom;
         var scrollHeight = this.scrollParent.clientHeight;
@@ -99,4 +102,4 @@ var VisibleIntersection = /** @class */ (function () {
     };
     return VisibleIntersection;
 }());
-export var createScrollIntersection = function () { return IntersectionObserver ? new VisibleIntersection() : new VisibleScroll(); };
+exports.createScrollIntersection = function () { return IntersectionObserver ? new VisibleIntersection() : new VisibleScroll(); };

@@ -1,12 +1,15 @@
 {
   "name": "@ztwx/utils",
-  "version": "1.2.0",
+  "version": "1.4.0",
   "description": "browser form validation",
-  "main": "lib/index.js",
+  "main": "main/index.js",
+  "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "pagehome": "https://github.com/zhantewei2/ztwx-utils",
   "scripts": {
-    "package": "tsc --outDir lib -d"
+    "package": "npm run package-main & npm run package-module",
+    "package-main": "tsc --outDir main -d --module commonjs",
+    "package-module": "tsc --outDir lib -d --module esnext"
   },
   "author": "zhantewei",
   "license": "ISC",
@@ -18,5 +21,5 @@
     "tslib": "^1.11.1",
     "typescript": "^3.8.3"
   },
-  "sideEffects": []
+  "sideEffects": false
 }

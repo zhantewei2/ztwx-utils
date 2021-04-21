@@ -1,3 +1,6 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getUniqueId = void 0;
 var GetUniqueId = /** @class */ (function () {
     function GetUniqueId() {
         this.b52Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
@@ -33,4 +36,4 @@ var GetUniqueId = /** @class */ (function () {
     return GetUniqueId;
 }());
 var _getUniqueId = new GetUniqueId();
-export var getUniqueId = function () { return _getUniqueId.getUniqueId(); };
+exports.getUniqueId = function () { return _getUniqueId.getUniqueId(); };
