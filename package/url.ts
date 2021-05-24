@@ -34,5 +34,8 @@ export class QueryParams{
   };
 }
 
+
 export const queryparams=new QueryParams();
 export const getPureUrl=(url:string)=>url?(url.match(/^[^\?#]*/)||"").toString():url;
+export const additionUrl=(url:string,params?:Record<any, any>,URIComponent:boolean=true)=>
+  url+(params&&Object.keys(params).length?'?'+queryparams.encode(params,URIComponent):'')
