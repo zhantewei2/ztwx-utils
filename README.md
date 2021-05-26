@@ -8,8 +8,9 @@ compressImg
 ---
 url
 ---
-uniqueId //获取唯一UUID
+uniqueId 
 ```js
+//获取唯一UUID
 import {getUniqueId} from "@ztwx/utils";
 
 const uuid = getUniqueId();
