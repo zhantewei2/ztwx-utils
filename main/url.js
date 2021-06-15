@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPureUrl = exports.queryparams = exports.QueryParams = void 0;
+exports.additionUrl = exports.getPureUrl = exports.queryparams = exports.QueryParams = void 0;
 var QueryParams = /** @class */ (function () {
     function QueryParams() {
         /**
@@ -47,3 +47,7 @@ var QueryParams = /** @class */ (function () {
 exports.QueryParams = QueryParams;
 exports.queryparams = new QueryParams();
 exports.getPureUrl = function (url) { return url ? (url.match(/^[^\?#]*/) || "").toString() : url; };
+exports.additionUrl = function (url, params, URIComponent) {
+    if (URIComponent === void 0) { URIComponent = true; }
+    return url + (params && Object.keys(params).length ? '?' + exports.queryparams.encode(params, URIComponent) : '');
+};

@@ -10,3 +10,4 @@ export declare class QueryParams {
 }
 export declare const queryparams: QueryParams;
 export declare const getPureUrl: (url: string) => string;
+export declare const additionUrl: (url: string, params?: Record<any, any> | undefined, URIComponent?: boolean) => string;
