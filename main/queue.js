@@ -42,7 +42,7 @@ var QueueRun = /** @class */ (function () {
             var error = _a.error;
             return error && error(p);
         });
-        this.clear();
+        this.queueList = [];
     };
     QueueRun.prototype.awaitRun = function (run, err) {
         if (this.resultComplete)

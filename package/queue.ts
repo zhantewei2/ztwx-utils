@@ -36,7 +36,7 @@ export class QueueRun<T,S>{
     this.errMsg=p;
     this.errComplete=true;
     this.queueList.forEach(({error})=>error&&error(p));
-    this.clear();
+    this.queueList=[];
   }
   awaitRun(run:(p:T)=>void,err?:(p:S)=>void){
     if(this.resultComplete)return run(this.result);
