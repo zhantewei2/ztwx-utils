@@ -6,7 +6,7 @@ const _year=_day*365;
 const _just=_second*10;
 
 
-export const disDate=(params:string|Date|number):string=>{
+export const disDate=(params:string|Date|number,simple?:boolean):string=>{
   let date:Date|null=null;
   if(typeof params=='string'||typeof params =='number'){
     date=new Date(params);
@@ -41,12 +41,15 @@ export const disDate=(params:string|Date|number):string=>{
       dayRD=yearRD % _day;
       if(dayRD){
         hour=Math.floor(dayRD/_hour);
-        if(hour)content+=hour+'小时';
+        if(hour){
+          content+=hour+'小时';
+          if(simple)return;
+        }
         hourRD=dayRD % _hour;
         if(hourRD){
           minute=Math.floor(hourRD/_minute);
           if(minute){
-            if(content){
+            if(content||simple){
               return content+=minute+'分钟'
             }else{
               defineM=true;
