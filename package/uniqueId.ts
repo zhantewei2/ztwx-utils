@@ -8,7 +8,7 @@ class GetUniqueId {
             remainder = num % this.t;
             num = Math.floor(num / this.t);
             str += this.b64Table[remainder];
-        } while (num > 1);
+        } while (num >=1);
 
         return str;
     }
