@@ -1,21 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUniqueId = void 0;
+exports.getUniqueId = exports.uniqueId = void 0;
 var GetUniqueId = /** @class */ (function () {
     function GetUniqueId() {
-        this.b52Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+        this.b64Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789@~";
+        this.t = 64;
         this.preTimestamp = null;
         this.preUniqueTag = 0;
     }
-    GetUniqueId.prototype.to52 = function (num) {
+    GetUniqueId.prototype.to64 = function (num) {
         var str = "";
         var remainder;
         do {
-            remainder = num % 52;
-            num = Math.floor(num / 52);
-            str += this.b52Table[remainder];
+            remainder = num % this.t;
+            num = Math.floor(num / this.t);
+            str += this.b64Table[remainder];
         } while (num > 1);
         return str;
+    };
+    GetUniqueId.prototype.de64 = function (str) {
+        var total = 0;
+        for (var i = 0, len = str.length; i < len; i++) {
+            total += Math.pow(this.t, i) * this.b64Table.indexOf(str[i]);
+        }
+        return total;
     };
     /** not thread safe
      **/
@@ -24,11 +32,11 @@ var GetUniqueId = /** @class */ (function () {
         var nowUniqueId;
         if (nowTimestamp === this.preTimestamp) {
             this.preUniqueTag += 1;
-            nowUniqueId = this.to52(this.preTimestamp) + this.to52(this.preUniqueTag);
+            nowUniqueId = this.to64(this.preTimestamp) + this.to64(this.preUniqueTag);
         }
         else {
             this.preTimestamp = nowTimestamp;
-            nowUniqueId = this.to52(this.preTimestamp);
+            nowUniqueId = this.to64(this.preTimestamp);
             this.preUniqueTag = 0;
         }
         return nowUniqueId;
@@ -36,4 +44,5 @@ var GetUniqueId = /** @class */ (function () {
     return GetUniqueId;
 }());
 var _getUniqueId = new GetUniqueId();
+exports.uniqueId = _getUniqueId;
 exports.getUniqueId = function () { return _getUniqueId.getUniqueId(); };
