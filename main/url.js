@@ -28,6 +28,8 @@ var QueryParams = /** @class */ (function () {
                 return {};
             try {
                 var str = (url.match(/\?[^#?]*/) || "").toString();
+                if (!str)
+                    return {};
                 str = str.slice(1);
                 var result_1 = {};
                 var arr = str.split('&');
@@ -49,5 +51,8 @@ exports.queryparams = new QueryParams();
 exports.getPureUrl = function (url) { return url ? (url.match(/^[^\?#]*/) || "").toString() : url; };
 exports.additionUrl = function (url, params, URIComponent) {
     if (URIComponent === void 0) { URIComponent = true; }
-    return url + (params && Object.keys(params).length ? '?' + exports.queryparams.encode(params, URIComponent) : '');
+    var originParams = exports.queryparams.dencode(url);
+    var endParams = !params ? originParams : Object.assign(originParams, params);
+    return exports.getPureUrl(url) + (Object.keys(endParams).length ?
+        '?' + exports.queryparams.encode(endParams, URIComponent) : '');
 };

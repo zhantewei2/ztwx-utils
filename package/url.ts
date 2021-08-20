@@ -20,6 +20,7 @@ export class QueryParams{
     if(!url)return {};
     try{
       let str:string=(url.match(/\?[^#?]*/)||"").toString();
+      if(!str)return {};
       str=str.slice(1);
       const result:Record<any,any>={};
       const arr=str.split('&');
@@ -37,5 +38,11 @@ export class QueryParams{
 
 export const queryparams=new QueryParams();
 export const getPureUrl=(url:string)=>url?(url.match(/^[^\?#]*/)||"").toString():url;
-export const additionUrl=(url:string,params?:Record<any, any>,URIComponent:boolean=true)=>
-  url+(params&&Object.keys(params).length?'?'+queryparams.encode(params,URIComponent):'')
+export const additionUrl=(url:string,params?:Record<any, any>,URIComponent:boolean=true)=>{
+  const originParams=queryparams.dencode(url);
+  const endParams=!params?originParams:Object.assign(originParams,params);
+  return getPureUrl(url)+ (
+    Object.keys(endParams).length?
+      '?' +queryparams.encode(endParams,URIComponent): ''
+  );
+}
