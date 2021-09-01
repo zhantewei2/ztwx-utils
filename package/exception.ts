@@ -28,7 +28,7 @@ class AbortErr extends VoyoError {
   code = "102";
 }
 
-export default {
+export {
   VoyoError,
   NetWorkErr,
   TimeoutErr,

@@ -16,11 +16,4 @@ declare class ReqErr extends VoyoError {
 declare class AbortErr extends VoyoError {
     code: string;
 }
-declare const _default: {
-    VoyoError: typeof VoyoError;
-    NetWorkErr: typeof NetWorkErr;
-    TimeoutErr: typeof TimeoutErr;
-    ReqErr: typeof ReqErr;
-    AbortErr: typeof AbortErr;
-};
-export default _default;
+export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr };

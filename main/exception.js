@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.AbortErr = exports.ReqErr = exports.TimeoutErr = exports.NetWorkErr = exports.VoyoError = void 0;
 var tslib_1 = require("tslib");
 var VoyoError = /** @class */ (function (_super) {
     tslib_1.__extends(VoyoError, _super);
@@ -13,6 +14,7 @@ var VoyoError = /** @class */ (function (_super) {
     }
     return VoyoError;
 }(Error));
+exports.VoyoError = VoyoError;
 //网络异常
 var NetWorkErr = /** @class */ (function (_super) {
     tslib_1.__extends(NetWorkErr, _super);
@@ -23,6 +25,7 @@ var NetWorkErr = /** @class */ (function (_super) {
     }
     return NetWorkErr;
 }(VoyoError));
+exports.NetWorkErr = NetWorkErr;
 //连接超时
 var TimeoutErr = /** @class */ (function (_super) {
     tslib_1.__extends(TimeoutErr, _super);
@@ -33,6 +36,7 @@ var TimeoutErr = /** @class */ (function (_super) {
     }
     return TimeoutErr;
 }(VoyoError));
+exports.TimeoutErr = TimeoutErr;
 //服务器响应返回错误
 var ReqErr = /** @class */ (function (_super) {
     tslib_1.__extends(ReqErr, _super);
@@ -43,6 +47,7 @@ var ReqErr = /** @class */ (function (_super) {
     }
     return ReqErr;
 }(VoyoError));
+exports.ReqErr = ReqErr;
 //强行断开连接
 var AbortErr = /** @class */ (function (_super) {
     tslib_1.__extends(AbortErr, _super);
@@ -53,10 +58,4 @@ var AbortErr = /** @class */ (function (_super) {
     }
     return AbortErr;
 }(VoyoError));
-exports.default = {
-    VoyoError: VoyoError,
-    NetWorkErr: NetWorkErr,
-    TimeoutErr: TimeoutErr,
-    ReqErr: ReqErr,
-    AbortErr: AbortErr
-};
+exports.AbortErr = AbortErr;
