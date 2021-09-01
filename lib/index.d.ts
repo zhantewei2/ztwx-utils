@@ -9,3 +9,4 @@ export * from "./url";
 export * from "./subject";
 export * from "./date";
 export * from "./contentType";
+export * from "./exception";
