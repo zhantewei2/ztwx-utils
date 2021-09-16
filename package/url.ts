@@ -64,5 +64,5 @@ export const queryparams=new QueryParams();
 export const additionUrl=(url:string,params?:Record<any, any>,URIComponent:boolean=true)=>{
   const {tag,query,pureUrl} = parseUrl(url);
   const endParams=!params?query:Object.assign(query,params);
-  return `${pureUrl}${tag?'#'+tag:''}${Object.keys(endParams).length?'?'+encodeQuery(endParams):''}`
+  return `${pureUrl}${tag?'#'+tag:''}${Object.keys(endParams).length?'?'+encodeQuery(endParams,URIComponent):''}`
 }
