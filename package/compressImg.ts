@@ -14,7 +14,7 @@ const switchQuality = (size: any) => {
     return undefined;
 };
 
-export const compressDataUrl = (b64: string,fileType:string="image/jpeg"): Promise<string> => {
+export const compressDataUrl = (b64: string,fileType:string="image/jpeg",qualityPercent?:number,resolutionPercent?:number): Promise<string> => {
     return new Promise((resolve, reject) => {
         const canvas: any = document.createElement('canvas');
         const ctx: any = canvas.getContext('2d');
@@ -25,27 +25,32 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg"): Promi
                 w = img.width,
                 l = Math.max(w, h) / (w / h),
                 percent = 1;
-            if (l <= 1200 && l > 1000) {
-                percent = 0.95
-            } else if (l > 1200 && l <= 1400) {
-                percent = 0.9
-            } else if (l > 1400 && l <= 1500) {
-                percent = 0.85;
-            } else if (l > 1500 && l <= 1600) {
-                percent = 0.75;
-            } else if (l > 1600 && l <= 1700) {
-                percent = 0.65;
-            } else if (l > 1700 && l <= 2000) {
-                percent = 0.65;
-            } else if (l > 2000 && l <= 3000) {
-                percent = 0.55;
-            } else if (l > 3000) {
-                percent = 0.5;
+            
+            if(resolutionPercent){
+                percent=resolutionPercent;
+            }else{
+                if (l <= 1200 && l > 1000) {
+                    percent = 0.95
+                } else if (l > 1200 && l <= 1400) {
+                    percent = 0.9
+                } else if (l > 1400 && l <= 1500) {
+                    percent = 0.85;
+                } else if (l > 1500 && l <= 1600) {
+                    percent = 0.75;
+                } else if (l > 1600 && l <= 1700) {
+                    percent = 0.65;
+                } else if (l > 1700 && l <= 2000) {
+                    percent = 0.65;
+                } else if (l > 2000 && l <= 3000) {
+                    percent = 0.55;
+                } else if (l > 3000) {
+                    percent = 0.5;
+                }
             }
-            const _h: number = canvas.height = h / percent;
-            const _w: number = canvas.width = w / percent;
-            ctx.drawImage(img, 0, 0, _w, _h);
-            resolve(canvas.toDataURL(fileType, switchQuality(b64.length)));
+            h= canvas.height = h / percent;
+            w= canvas.width = w / percent;
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL(fileType, resolutionPercent??switchQuality(b64.length)));
         };
         img.onerror = (e) => reject(e);
         img.src = b64;
@@ -97,7 +102,7 @@ export class FileCompress {
         return this.exts.indexOf(ext) >= 0;
     }
 
-    compressImgFromFile(file: File): Promise<[string, string]> {
+    compressImgFromFile(file: File,qualityPercent?:number,resolutionPercent?:number): Promise<[string, string]> {
         let filename = file.name;
         if (!this.checkFileFormat(file.name)) return Promise.reject([filename, "image format error"]);
         filename = getUniqueId() +"."+ getExtension(filename);
@@ -106,7 +111,7 @@ export class FileCompress {
             fr.onload = () => {
                 const resultB64 = fr.result;
                 if (resultB64 && typeof (resultB64) === "string") {
-                    compressDataUrl(resultB64,file.type)
+                    compressDataUrl(resultB64,file.type,qualityPercent,resolutionPercent)
                         .then((b64compressed: string) => resolve([filename, b64compressed]))
                         .catch((e: any) => reject([filename, e]))
                 } else {

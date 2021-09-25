@@ -23,7 +23,7 @@ var switchQuality = function (size) {
         return 0.1;
     return undefined;
 };
-exports.compressDataUrl = function (b64, fileType) {
+exports.compressDataUrl = function (b64, fileType, qualityPercent, resolutionPercent) {
     if (fileType === void 0) { fileType = "image/jpeg"; }
     return new Promise(function (resolve, reject) {
         var canvas = document.createElement('canvas');
@@ -31,34 +31,39 @@ exports.compressDataUrl = function (b64, fileType) {
         var img = new Image();
         img.onload = function () {
             var h = img.height, w = img.width, l = Math.max(w, h) / (w / h), percent = 1;
-            if (l <= 1200 && l > 1000) {
-                percent = 0.95;
+            if (resolutionPercent) {
+                percent = resolutionPercent;
             }
-            else if (l > 1200 && l <= 1400) {
-                percent = 0.9;
+            else {
+                if (l <= 1200 && l > 1000) {
+                    percent = 0.95;
+                }
+                else if (l > 1200 && l <= 1400) {
+                    percent = 0.9;
+                }
+                else if (l > 1400 && l <= 1500) {
+                    percent = 0.85;
+                }
+                else if (l > 1500 && l <= 1600) {
+                    percent = 0.75;
+                }
+                else if (l > 1600 && l <= 1700) {
+                    percent = 0.65;
+                }
+                else if (l > 1700 && l <= 2000) {
+                    percent = 0.65;
+                }
+                else if (l > 2000 && l <= 3000) {
+                    percent = 0.55;
+                }
+                else if (l > 3000) {
+                    percent = 0.5;
+                }
             }
-            else if (l > 1400 && l <= 1500) {
-                percent = 0.85;
-            }
-            else if (l > 1500 && l <= 1600) {
-                percent = 0.75;
-            }
-            else if (l > 1600 && l <= 1700) {
-                percent = 0.65;
-            }
-            else if (l > 1700 && l <= 2000) {
-                percent = 0.65;
-            }
-            else if (l > 2000 && l <= 3000) {
-                percent = 0.55;
-            }
-            else if (l > 3000) {
-                percent = 0.5;
-            }
-            var _h = canvas.height = h / percent;
-            var _w = canvas.width = w / percent;
-            ctx.drawImage(img, 0, 0, _w, _h);
-            resolve(canvas.toDataURL(fileType, switchQuality(b64.length)));
+            h = canvas.height = h / percent;
+            w = canvas.width = w / percent;
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL(fileType, resolutionPercent !== null && resolutionPercent !== void 0 ? resolutionPercent : switchQuality(b64.length)));
         };
         img.onerror = function (e) { return reject(e); };
         img.src = b64;
@@ -105,7 +110,7 @@ var FileCompress = /** @class */ (function () {
         var ext = filename.slice(pointIndex + 1).toLowerCase();
         return this.exts.indexOf(ext) >= 0;
     };
-    FileCompress.prototype.compressImgFromFile = function (file) {
+    FileCompress.prototype.compressImgFromFile = function (file, qualityPercent, resolutionPercent) {
         var filename = file.name;
         if (!this.checkFileFormat(file.name))
             return Promise.reject([filename, "image format error"]);
@@ -115,7 +120,7 @@ var FileCompress = /** @class */ (function () {
             fr.onload = function () {
                 var resultB64 = fr.result;
                 if (resultB64 && typeof (resultB64) === "string") {
-                    exports.compressDataUrl(resultB64, file.type)
+                    exports.compressDataUrl(resultB64, file.type, qualityPercent, resolutionPercent)
                         .then(function (b64compressed) { return resolve([filename, b64compressed]); })
                         .catch(function (e) { return reject([filename, e]); });
                 }
