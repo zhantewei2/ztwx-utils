@@ -12,9 +12,11 @@ export declare class QueueRun<T, S> {
         success: (p: T) => void;
         error?: (p: S) => void;
     }>;
+    queueUtilSuccessList: Array<(p: T) => void>;
     end(p: T): void;
     err(p: S): void;
     awaitRun(run: (p: T) => void, err?: (p: S) => void): void;
-    clear(): void;
+    refresh(): void;
     awaitPromise(): Promise<T>;
+    awaitUntilSuccess(): Promise<T>;
 }

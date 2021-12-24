@@ -110,6 +110,12 @@ var FileCompress = /** @class */ (function () {
         var ext = filename.slice(pointIndex + 1).toLowerCase();
         return this.exts.indexOf(ext) >= 0;
     };
+    /**
+     *
+     * @param file
+     * @param qualityPercent 手动指定品质压缩比例 , 如：0.5 为50%
+     * @param resolutionPercent 手动指定分辨率压缩比例
+     */
     FileCompress.prototype.compressImgFromFile = function (file, qualityPercent, resolutionPercent) {
         var filename = file.name;
         if (!this.checkFileFormat(file.name))

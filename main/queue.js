@@ -25,6 +25,7 @@ exports.OneRun = OneRun;
 var QueueRun = /** @class */ (function () {
     function QueueRun() {
         this.queueList = [];
+        this.queueUtilSuccessList = [];
     }
     QueueRun.prototype.end = function (p) {
         this.result = p;
@@ -33,7 +34,9 @@ var QueueRun = /** @class */ (function () {
             var success = _a.success;
             return success(p);
         });
-        this.clear();
+        this.queueUtilSuccessList.forEach(function (fn) { return fn(p); });
+        this.queueList = [];
+        this.queueUtilSuccessList = [];
     };
     QueueRun.prototype.err = function (p) {
         this.errMsg = p;
@@ -54,9 +57,11 @@ var QueueRun = /** @class */ (function () {
             error: err
         });
     };
-    QueueRun.prototype.clear = function () {
+    QueueRun.prototype.refresh = function () {
         this.queueList = [];
+        this.queueUtilSuccessList = [];
         this.result = this.errMsg = undefined;
+        this.resultComplete = this.errComplete = false;
     };
     QueueRun.prototype.awaitPromise = function () {
         var _this = this;
@@ -69,6 +74,14 @@ var QueueRun = /** @class */ (function () {
                 success: function (p) { return resolve(p); },
                 error: function (p) { return reject(p); }
             });
+        });
+    };
+    QueueRun.prototype.awaitUntilSuccess = function () {
+        var _this = this;
+        if (this.resultComplete)
+            return Promise.resolve(this.result);
+        return new Promise(function (resolve) {
+            _this.queueUtilSuccessList.push(function (p) { return resolve(p); });
         });
     };
     return QueueRun;

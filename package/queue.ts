@@ -26,11 +26,14 @@ export class QueueRun<T,S>{
     success:(p:T)=>void,
     error?:(p:S)=>void
   }>=[];
+  queueUtilSuccessList:Array<(p:T)=>void>=[];
   end(p:T){
     this.result=p;
     this.resultComplete=true;
     this.queueList.forEach(({success})=>success(p));
-    this.clear();
+    this.queueUtilSuccessList.forEach(fn=>fn(p));
+    this.queueList=[];
+    this.queueUtilSuccessList=[];
   }
   err(p:S){
     this.errMsg=p;
@@ -46,9 +49,11 @@ export class QueueRun<T,S>{
       error:err
     });
   }
-  clear(){
+  refresh(){
     this.queueList=[];
+    this.queueUtilSuccessList=[];
     this.result=this.errMsg=undefined as any;
+    this.resultComplete=this.errComplete=false;
   }
   awaitPromise():Promise<T>{
     if(this.resultComplete)return Promise.resolve(this.result);
@@ -58,6 +63,12 @@ export class QueueRun<T,S>{
         success:(p)=>resolve(p),
         error:(p)=>reject(p)
       })
+    })
+  }
+  awaitUntilSuccess():Promise<T>{
+    if(this.resultComplete)return Promise.resolve(this.result);
+    return new Promise((resolve)=>{
+      this.queueUtilSuccessList.push((p)=>resolve(p));
     })
   }
 }

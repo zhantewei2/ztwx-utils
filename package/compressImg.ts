@@ -102,6 +102,12 @@ export class FileCompress {
         return this.exts.indexOf(ext) >= 0;
     }
 
+    /**
+     * 
+     * @param file
+     * @param qualityPercent 手动指定品质压缩比例 , 如：0.5 为50%
+     * @param resolutionPercent 手动指定分辨率压缩比例
+     */
     compressImgFromFile(file: File,qualityPercent?:number,resolutionPercent?:number): Promise<[string, string]> {
         let filename = file.name;
         if (!this.checkFileFormat(file.name)) return Promise.reject([filename, "image format error"]);

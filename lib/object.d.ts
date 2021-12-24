@@ -1,3 +1,8 @@
 export declare const isObject: (obj: any) => boolean;
-export declare const getObjectFromList: (obj: Record<string, any>, list: string[]) => Record<string, any>;
-export declare const filterNullObj: (obj: Record<string, any>, exclude?: string[] | undefined) => Record<string, any>;
+export declare const getObjectFromList: <T, K extends keyof T>(obj: T, list: K[]) => { [P in K]?: T[K] | undefined; };
+export declare const filterIncludeObj: <T extends {
+    [k: string]: any;
+}, K extends keyof T>(obj: T, exclude?: K[] | undefined, filterValue?: any[] | undefined) => Partial<T>;
+export declare const filterNullObj: <T, K extends keyof T>(obj: T, exclude?: K[] | undefined) => Partial<T>;
+export declare const filterEmptyObj: <T, K extends keyof T>(obj: T, exclude?: K[] | undefined) => Partial<T>;
+export declare const floatSimplify: (float: number, decimalCount: number) => number;
