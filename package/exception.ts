@@ -1,41 +1,56 @@
-class VoyoError extends Error {
-  code?: string;
-  message: any;
-  info: any;
-  name: string;
-  constructor(info?: any) {
-    super();
-    if (info) {
-      this.message = info;
-      this.info = info;
-    }
-  }
-}
-
 enum Err{
+  Base="0",
   NetWork= "11",
   TimeOut="101",
   ReqErr="201",
   AbortErr="102"
 }
-//网络异常
-class NetWorkErr extends VoyoError {
-  code = Err.NetWork;
-}
-//连接超时
-class TimeoutErr extends VoyoError {
-  code = Err.TimeOut;
-}
-//服务器响应返回错误
-class ReqErr extends VoyoError {
-  code = Err.ReqErr;
-}
-//强行断开连接
-class AbortErr extends VoyoError {
-  code = Err.AbortErr;
+export interface VoyoErrorProperty{
+  code: string;
+  message: any;
+  info:any;
+  
 }
 
-const entityOf=(o:any|VoyoError,e:VoyoError)=>o&&o.code===e.code;
+export interface VoyoErrorConstructor extends VoyoErrorProperty{
+  new (info?:any): any;
+}
+
+const VoyoError: VoyoErrorConstructor= function(this:VoyoErrorProperty,info:any){
+  this.code=Err.Base;
+  this.message=this.info=info;
+  
+} as any;
+//网络异常
+const NetWorkErr:VoyoErrorConstructor=function(this:VoyoErrorProperty,info?:any){
+  this.code=Err.NetWork;
+  this.message=this.info=info;
+} as any;
+
+NetWorkErr.prototype= new VoyoError();
+
+
+//连接超时
+const TimeoutErr:VoyoErrorConstructor=function (this:VoyoErrorProperty,info?:any){
+  this.code=Err.TimeOut;
+  this.message=this.info=info;
+} as any;
+TimeoutErr.prototype=new VoyoError();
+
+//服务器响应返回错误
+const ReqErr:VoyoErrorConstructor = function(this:VoyoErrorProperty,info?:any){
+  this.code=Err.ReqErr;
+  this.message=this.info=info;
+} as any;
+ReqErr.prototype=new VoyoError();
+
+//强行断开连接
+const AbortErr:VoyoErrorConstructor = function(this:VoyoErrorProperty,info?:any){
+  this.code=Err.ReqErr;
+  this.message=this.info=info;
+} as any;
+AbortErr.prototype=new VoyoError();
+
 
 export {
   VoyoError,
@@ -44,5 +59,4 @@ export {
   ReqErr,
   AbortErr,
   Err,
-  entityOf
 }

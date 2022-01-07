@@ -1,27 +1,21 @@
-declare class VoyoError extends Error {
-    code?: string;
-    message: any;
-    info: any;
-    name: string;
-    constructor(info?: any);
-}
 declare enum Err {
+    Base = "0",
     NetWork = "11",
     TimeOut = "101",
     ReqErr = "201",
     AbortErr = "102"
 }
-declare class NetWorkErr extends VoyoError {
-    code: Err;
+export interface VoyoErrorProperty {
+    code: string;
+    message: any;
+    info: any;
 }
-declare class TimeoutErr extends VoyoError {
-    code: Err;
+export interface VoyoErrorConstructor extends VoyoErrorProperty {
+    new (info?: any): any;
 }
-declare class ReqErr extends VoyoError {
-    code: Err;
-}
-declare class AbortErr extends VoyoError {
-    code: Err;
-}
-declare const entityOf: (o: any | VoyoError, e: VoyoError) => boolean;
-export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, Err, entityOf };
+declare const VoyoError: VoyoErrorConstructor;
+declare const NetWorkErr: VoyoErrorConstructor;
+declare const TimeoutErr: VoyoErrorConstructor;
+declare const ReqErr: VoyoErrorConstructor;
+declare const AbortErr: VoyoErrorConstructor;
+export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, Err, };
