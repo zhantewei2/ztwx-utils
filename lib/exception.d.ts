@@ -23,4 +23,5 @@ declare class ReqErr extends VoyoError {
 declare class AbortErr extends VoyoError {
     code: Err;
 }
-export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, Err };
+declare const entityOf: (o: any | VoyoError, e: VoyoError) => boolean;
+export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, Err, entityOf };

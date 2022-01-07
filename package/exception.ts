@@ -35,11 +35,14 @@ class AbortErr extends VoyoError {
   code = Err.AbortErr;
 }
 
+const entityOf=(o:any|VoyoError,e:VoyoError)=>o&&o.code===e.code;
+
 export {
   VoyoError,
   NetWorkErr,
   TimeoutErr,
   ReqErr,
   AbortErr,
-  Err
+  Err,
+  entityOf
 }
