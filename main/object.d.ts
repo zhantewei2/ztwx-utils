@@ -1,5 +1,5 @@
 export declare const isObject: (obj: any) => boolean;
-export declare const getObjectFromList: <T, K extends keyof T>(obj: T, list: K[]) => { [P in K]?: T[K] | undefined; };
+export declare const getObjectFromList: <T, K extends keyof T>(obj: T, list: K[]) => { [P in K]: T[K]; };
 export declare const filterIncludeObj: <T extends {
     [k: string]: any;
 }, K extends keyof T>(obj: T, exclude?: K[] | undefined, filterValue?: any[] | undefined) => Partial<T>;

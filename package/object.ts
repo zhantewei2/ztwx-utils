@@ -4,8 +4,8 @@ export const isObject=(obj:any):boolean=>
 export const getObjectFromList = <T, K extends keyof T>(
   obj: T,
   list: K[],
-):{[P in K]?:T[K]} => {
-  const endObj:{[P in K]?:T[K]} ={};
+):{[P in K]:T[K]} => {
+  const endObj:{[P in K]:T[K]} ={} as any;
   list.forEach((key) => {
     endObj[key] = obj[key];
   });

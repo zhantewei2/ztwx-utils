@@ -1,6 +1,6 @@
 {
   "name": "@ztwx/utils",
-  "version": "1.9.0",
+  "version": "1.9.2",
   "description": "browser form validation",
   "main": "main/index.js",
   "module": "lib/index.js",
