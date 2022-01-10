@@ -4,7 +4,7 @@ exports.Err = exports.AbortErr = exports.ReqErr = exports.TimeoutErr = exports.N
 var Err;
 (function (Err) {
     Err["Base"] = "0";
-    Err["NetWork"] = "11";
+    Err["NetWork"] = "100";
     Err["TimeOut"] = "101";
     Err["ReqErr"] = "201";
     Err["AbortErr"] = "102";

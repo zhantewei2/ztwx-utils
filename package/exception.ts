@@ -1,6 +1,6 @@
 enum Err{
   Base="0",
-  NetWork= "11",
+  NetWork= "100",
   TimeOut="101",
   ReqErr="201",
   AbortErr="102"
