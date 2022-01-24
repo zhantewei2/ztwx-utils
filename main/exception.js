@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Err = exports.AbortErr = exports.ReqErr = exports.TimeoutErr = exports.NetWorkErr = exports.VoyoError = void 0;
+exports.Err = exports.EmptyErr = exports.AbortErr = exports.ReqErr = exports.TimeoutErr = exports.NetWorkErr = exports.VoyoError = void 0;
 var Err;
 (function (Err) {
     Err["Base"] = "0";
@@ -8,6 +8,7 @@ var Err;
     Err["TimeOut"] = "101";
     Err["ReqErr"] = "201";
     Err["AbortErr"] = "102";
+    Err["Empty"] = "404";
 })(Err || (Err = {}));
 exports.Err = Err;
 var VoyoError = function (info) {
@@ -43,3 +44,9 @@ var AbortErr = function (info) {
 };
 exports.AbortErr = AbortErr;
 AbortErr.prototype = new VoyoError();
+var EmptyErr = function (info) {
+    this.code = Err.Empty;
+    this.message = this.info = info;
+};
+exports.EmptyErr = EmptyErr;
+EmptyErr.prototype = new VoyoError();

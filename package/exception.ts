@@ -3,7 +3,8 @@ enum Err{
   NetWork= "100",
   TimeOut="101",
   ReqErr="201",
-  AbortErr="102"
+  AbortErr="102",
+  Empty="404"
 }
 export interface VoyoErrorProperty{
   code: string;
@@ -51,6 +52,12 @@ const AbortErr:VoyoErrorConstructor = function(this:VoyoErrorProperty,info?:any)
 } as any;
 AbortErr.prototype=new VoyoError();
 
+const EmptyErr: VoyoErrorConstructor =function(this:VoyoErrorProperty,info?:any){
+  this.code=Err.Empty;
+  this.message=this.info=info;
+} as any;
+
+EmptyErr.prototype=new VoyoError();
 
 export {
   VoyoError,
@@ -58,5 +65,6 @@ export {
   TimeoutErr,
   ReqErr,
   AbortErr,
+  EmptyErr,
   Err,
 }

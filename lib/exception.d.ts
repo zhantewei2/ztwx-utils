@@ -3,7 +3,8 @@ declare enum Err {
     NetWork = "100",
     TimeOut = "101",
     ReqErr = "201",
-    AbortErr = "102"
+    AbortErr = "102",
+    Empty = "404"
 }
 export interface VoyoErrorProperty {
     code: string;
@@ -18,4 +19,5 @@ declare const NetWorkErr: VoyoErrorConstructor;
 declare const TimeoutErr: VoyoErrorConstructor;
 declare const ReqErr: VoyoErrorConstructor;
 declare const AbortErr: VoyoErrorConstructor;
-export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, Err, };
+declare const EmptyErr: VoyoErrorConstructor;
+export { VoyoError, NetWorkErr, TimeoutErr, ReqErr, AbortErr, EmptyErr, Err, };
