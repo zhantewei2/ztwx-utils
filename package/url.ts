@@ -11,7 +11,7 @@ export const encodeQuery=(obj:QueryType,URIComponent:boolean=true):string=>{
   let value:any;
   for(let i in obj){
     value=URIComponent?encodeURIComponent(obj[i]):obj[i];
-    if(value||value===0)str+=i+'='+value+'&';
+    str+=i+'='+value+'&';
   }
   return str.slice(0,-1);
 }

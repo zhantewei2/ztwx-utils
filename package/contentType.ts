@@ -34,3 +34,8 @@ export const getExtension=(filename:string)=>{
     if(pointLast&&pointLast<filename.length-1)return filename.slice(pointLast+1);
     return "";
 }
+export const getFileName=(filename:string)=>{
+    const pointLast=filename.lastIndexOf(".");
+    if(pointLast&&pointLast>0)return filename.slice(0,pointLast);
+    return "";
+}

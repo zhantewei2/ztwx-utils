@@ -12,8 +12,7 @@ exports.encodeQuery = function (obj, URIComponent) {
     var value;
     for (var i in obj) {
         value = URIComponent ? encodeURIComponent(obj[i]) : obj[i];
-        if (value || value === 0)
-            str += i + '=' + value + '&';
+        str += i + '=' + value + '&';
     }
     return str.slice(0, -1);
 };

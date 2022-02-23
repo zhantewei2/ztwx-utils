@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getExtension = exports.getFileExtension = exports.getContentType = exports.httpHeaders = void 0;
+exports.getFileName = exports.getExtension = exports.getFileExtension = exports.getContentType = exports.httpHeaders = void 0;
 exports.httpHeaders = {
     'html': 'text/html;charset=utf8',
     'txt': 'text/html',
@@ -35,5 +35,11 @@ exports.getExtension = function (filename) {
     var pointLast = filename.lastIndexOf(".");
     if (pointLast && pointLast < filename.length - 1)
         return filename.slice(pointLast + 1);
+    return "";
+};
+exports.getFileName = function (filename) {
+    var pointLast = filename.lastIndexOf(".");
+    if (pointLast && pointLast > 0)
+        return filename.slice(0, pointLast);
     return "";
 };

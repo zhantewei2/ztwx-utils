@@ -75,7 +75,7 @@ export const dataURLtoBlob = (dataurl: any) => {
 
     })
 };
-export const dataURLtoArrayBuffer = (base64String: string): any => {
+export const dataURLtoArrayBuffer = (base64String: string) => {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
 
     const base64 = (base64String + padding)
