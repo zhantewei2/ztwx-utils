@@ -400,8 +400,8 @@ class IndexPage{
 
 
 <h5 id="storageManger">关于storage工具的实现</h5>
-```typescript
 
+```typescript
 import {StorageInterface} from "@ztwx/utils/lib/taskScheduler"
 //web
 export class WebStorage implements StorageInterface{
