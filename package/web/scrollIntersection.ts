@@ -23,7 +23,7 @@ export class VisibleScrollItem{
     observerRun?:ObserveRun;
 }
 
-class VisibleScroll implements BaseIntersection{
+export class VisibleScroll implements BaseIntersection{
     scrollParent:HTMLElement;
     scrollHandler:any;
     scrollListenerEl:HTMLElement|Window;
@@ -80,7 +80,7 @@ class VisibleScroll implements BaseIntersection{
         this.scrollListenerEl.addEventListener("scroll",this.scrollHandler)
     }
 }
-class VisibleIntersection implements BaseIntersection{
+export class VisibleIntersection implements BaseIntersection{
     mainObserver:IntersectionObserver;
     elKeyName:string="voyo-scroll-intersection-order";
     mounted(mountedEl: HTMLElement): void {

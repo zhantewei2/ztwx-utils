@@ -1,4 +1,7 @@
-import { __assign, __awaiter, __generator } from "tslib";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.TaskScheduler = void 0;
+var tslib_1 = require("tslib");
 var TaskScheduler = /** @class */ (function () {
     function TaskScheduler(storageKey, storageManager) {
         this.taskList = [];
@@ -47,7 +50,7 @@ var TaskScheduler = /** @class */ (function () {
     };
     // 先注册规则
     TaskScheduler.prototype.registryTaskRule = function (taskRule) {
-        this.taskList.push(__assign(__assign({}, taskRule), {
+        this.taskList.push(tslib_1.__assign(tslib_1.__assign({}, taskRule), {
             executeCount: 0,
             finished: false,
             completed: false,
@@ -73,9 +76,9 @@ var TaskScheduler = /** @class */ (function () {
     };
     // @ts-ignore
     TaskScheduler.prototype.check = function () {
-        return __awaiter(this, void 0, void 0, function () {
+        return tslib_1.__awaiter(this, void 0, void 0, function () {
             var task, localTask, currentTime, e_1;
-            return __generator(this, function (_a) {
+            return tslib_1.__generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         if (this.taskPauseCheck || this.taskState === "run")
@@ -103,7 +106,7 @@ var TaskScheduler = /** @class */ (function () {
                     case 1:
                         _a.trys.push([1, 3, , 4]);
                         return [4 /*yield*/, task.run({
-                                executeCount: task.executeCount + 1,
+                                executeCount: task.executeCount,
                                 lastExecuteTime: task.lastExecuteTime
                             })];
                     case 2:
@@ -128,4 +131,4 @@ var TaskScheduler = /** @class */ (function () {
     };
     return TaskScheduler;
 }());
-export { TaskScheduler };
+exports.TaskScheduler = TaskScheduler;

@@ -5,6 +5,7 @@ const _day=_hour*24;
 const _year=_day*365;
 const _just=_second*10;
 
+export const awaitSleep=(time:number)=>new Promise(resolve=>setTimeout(resolve,time))
 
 export const disDate=(params:string|Date|number,simple?:boolean):string=>{
   let date:Date|null=null;

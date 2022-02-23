@@ -1,6 +1,5 @@
-import {StorageInterface} from "./storage.interface";
-import {getObjectFromList} from "../object";
-
+import {StorageInterface,StorageValue} from "./storage.interface";
+export {StorageInterface,StorageValue} from "./storage.interface";
 export type TaskRunParams={
   executeCount:number;
   lastExecuteTime?:number;
@@ -37,6 +36,8 @@ export class TaskScheduler{
   taskList:TaskItem[]=[];
   taskStorageList: TaskItemLocal[]=[];
   taskState: "run"|"ready";
+  taskPauseCheck: boolean;
+  
   constructor(storageKey:string,storageManager:StorageInterface) {
     this.storageManager=storageManager;
     this.storageKey=storageKey;
@@ -102,14 +103,26 @@ export class TaskScheduler{
     const existsTaskItem=this.taskList.find(i=>i.id===id);
     if(!existsTaskItem)return console.error("task not exists:",id);
     existsTaskItem.run=run;
+    existsTaskItem.finished=false;
     check&&this.check();
   }
   
+  
+  pauseCheck(){
+    this.taskPauseCheck=true;
+  }
+  restoreCheck(){
+    this.taskPauseCheck=false;
+  }
   // @ts-ignore
   async check(){
-    if(this.taskState==="run")return;
+    if(this.taskPauseCheck||this.taskState==="run")return;
     const task=this.taskList.find(i=>!i.finished);
     if(!task)return;
+    if(!task.run){
+      task.finished=true;
+      return this.check();
+    }
     if(task.local) {
       const localTask = this.taskStorageList.find(i => task.id === i.id);
       const currentTime = this.getCurrentTime();
@@ -123,18 +136,17 @@ export class TaskScheduler{
     
     this.taskState="run";
     try {
-      if (task.run) await task.run({
-        executeCount: task.executeCount+1,
+      await task.run({
+        executeCount: task.executeCount,
         lastExecuteTime: task.lastExecuteTime
       });
-      
       if(task.local)task.completed=true; // save completed when its local.
       
     }catch (e){
       
     }
-    task.executeCount++;
     task.finished=true;
+    task.executeCount++;
     task.lastExecuteTime= this.getCurrentTime();
     this.saveTaskStorageListFromItem(task);
     this.taskState="ready";

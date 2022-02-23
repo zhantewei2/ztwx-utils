@@ -1,12 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.disDate = void 0;
+exports.disDate = exports.awaitSleep = void 0;
 var _second = 1000;
 var _minute = _second * 60;
 var _hour = _minute * 60;
 var _day = _hour * 24;
 var _year = _day * 365;
 var _just = _second * 10;
+exports.awaitSleep = function (time) { return new Promise(function (resolve) { return setTimeout(resolve, time); }); };
 exports.disDate = function (params, simple) {
     var date = null;
     if (typeof params == 'string' || typeof params == 'number') {
