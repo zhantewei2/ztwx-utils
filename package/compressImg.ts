@@ -25,7 +25,7 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg",quality
                 w = img.width,
                 l = Math.max(w, h) / (w / h),
                 percent = 1;
-            
+
             if(resolutionPercent){
                 percent=resolutionPercent;
             }else{
@@ -47,10 +47,10 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg",quality
                     percent = 0.5;
                 }
             }
-            h= canvas.height = h / percent;
-            w= canvas.width = w / percent;
+            h= canvas.height = h * percent;
+            w= canvas.width = w * percent;
             ctx.drawImage(img, 0, 0, w, h);
-            resolve(canvas.toDataURL(fileType, resolutionPercent??switchQuality(b64.length)));
+            resolve(canvas.toDataURL(fileType, qualityPercent??switchQuality(b64.length)));
         };
         img.onerror = (e) => reject(e);
         img.src = b64;
@@ -103,7 +103,7 @@ export class FileCompress {
     }
 
     /**
-     * 
+     *
      * @param file
      * @param qualityPercent 手动指定品质压缩比例 , 如：0.5 为50%
      * @param resolutionPercent 手动指定分辨率压缩比例
