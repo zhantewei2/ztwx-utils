@@ -47,8 +47,8 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg",quality
                     percent = 0.5;
                 }
             }
-            h= canvas.height = h * percent;
-            w= canvas.width = w * percent;
+            h= canvas.height = Math.ceil(h * percent);
+            w= canvas.width = Math.ceil(w * percent);
             ctx.drawImage(img, 0, 0, w, h);
             resolve(canvas.toDataURL(fileType, qualityPercent??switchQuality(b64.length)));
         };
