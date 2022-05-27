@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fileCompress = exports.FileCompress = exports.dataURLtoArrayBuffer = exports.dataURLtoBlob = exports.compressDataUrl = void 0;
+exports.fileCompress = exports.FileCompress = exports.dataURLtoArrayBuffer = exports.dataURLtoBlob = exports.compressDataUrl = exports.shouldQuality = void 0;
 var uniqueId_1 = require("./uniqueId");
 var contentType_1 = require("./contentType");
 var switchQuality = function (size) {
     size = size / 1024;
     if (size < 300)
-        return undefined;
+        return 0.92;
     if (size < 500)
         return 0.7;
     if (500 <= size && size <= 1000)
@@ -21,8 +21,9 @@ var switchQuality = function (size) {
         return 0.15;
     if (size > 7000)
         return 0.1;
-    return undefined;
+    return 0.92;
 };
+exports.shouldQuality = function (fileType) { return ["image/jpeg", "image/webp"].includes(fileType); };
 exports.compressDataUrl = function (b64, fileType, qualityPercent, resolutionPercent) {
     if (fileType === void 0) { fileType = "image/jpeg"; }
     return new Promise(function (resolve, reject) {
@@ -36,22 +37,22 @@ exports.compressDataUrl = function (b64, fileType, qualityPercent, resolutionPer
             }
             else {
                 if (l <= 1200 && l > 1000) {
-                    percent = 0.95;
-                }
-                else if (l > 1200 && l <= 1400) {
                     percent = 0.9;
                 }
-                else if (l > 1400 && l <= 1500) {
+                else if (l > 1200 && l <= 1400) {
                     percent = 0.85;
                 }
-                else if (l > 1500 && l <= 1600) {
+                else if (l > 1400 && l <= 1500) {
                     percent = 0.75;
+                }
+                else if (l > 1500 && l <= 1600) {
+                    percent = 0.7;
                 }
                 else if (l > 1600 && l <= 1700) {
                     percent = 0.65;
                 }
                 else if (l > 1700 && l <= 2000) {
-                    percent = 0.65;
+                    percent = 0.6;
                 }
                 else if (l > 2000 && l <= 3000) {
                     percent = 0.55;
@@ -63,7 +64,8 @@ exports.compressDataUrl = function (b64, fileType, qualityPercent, resolutionPer
             h = canvas.height = Math.ceil(h * percent);
             w = canvas.width = Math.ceil(w * percent);
             ctx.drawImage(img, 0, 0, w, h);
-            resolve(canvas.toDataURL(fileType, qualityPercent !== null && qualityPercent !== void 0 ? qualityPercent : switchQuality(b64.length)));
+            var dataUrl = canvas.toDataURL(fileType, exports.shouldQuality(fileType) ? qualityPercent !== null && qualityPercent !== void 0 ? qualityPercent : switchQuality(b64.length) : undefined);
+            resolve(dataUrl.length < b64.length ? dataUrl : b64);
         };
         img.onerror = function (e) { return reject(e); };
         img.src = b64;

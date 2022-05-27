@@ -1,3 +1,4 @@
+export declare const shouldQuality: (fileType: string) => boolean;
 export declare const compressDataUrl: (b64: string, fileType?: string, qualityPercent?: number | undefined, resolutionPercent?: number | undefined) => Promise<string>;
 export declare const dataURLtoBlob: (dataurl: any) => Promise<unknown>;
 export declare const dataURLtoArrayBuffer: (base64String: string) => Uint8Array;
