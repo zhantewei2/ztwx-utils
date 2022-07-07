@@ -1,8 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fileCompress = exports.FileCompress = exports.dataURLtoArrayBuffer = exports.dataURLtoBlob = exports.compressDataUrl = exports.shouldQuality = void 0;
+exports.fileCompress = exports.FileCompress = exports.imageMimeIgnores = exports.imageMimes = exports.dataURLtoArrayBuffer = exports.dataURLtoBlob = exports.compressDataUrl = exports.shouldQuality = void 0;
 var uniqueId_1 = require("./uniqueId");
 var contentType_1 = require("./contentType");
+var md5_1 = require("./data/md5");
 var switchQuality = function (size) {
     size = size / 1024;
     if (size < 300)
@@ -101,18 +102,82 @@ exports.dataURLtoArrayBuffer = function (base64String) {
     }
     return outputArray;
 };
+exports.imageMimes = {
+    "image/png": "png",
+    "image/jpg": "jpg",
+    "image/jpeg": "jpg",
+    "image/gif": "gif",
+    "image/bmp": "bmp",
+    "image/svg": "svg",
+    "image/webp": "webp",
+    "image/svg+xml": "svg",
+    "image/vnd.microsoft.icon": "ico"
+};
+exports.imageMimeIgnores = [
+    "image/svg+xml", "image/gif"
+];
 var FileCompress = /** @class */ (function () {
     function FileCompress() {
-        this.exts = ["png", "jpg", "jpeg", "git", "bmp", "svg", "webp", "jp"];
+        this.imageMimeList = Reflect.ownKeys(exports.imageMimes);
+        this.imageMimeIgnores = exports.imageMimeIgnores;
     }
-    FileCompress.prototype.checkFileFormat = function (filename) {
-        var pointIndex = filename.lastIndexOf(".");
-        if (!pointIndex)
-            return false;
-        var ext = filename.slice(pointIndex + 1).toLowerCase();
-        return this.exts.indexOf(ext) >= 0;
+    FileCompress.prototype.checkFileFormat = function (file) {
+        return this.imageMimeList.includes(file.type);
+    };
+    FileCompress.prototype.readAsDataUrl = function (file) {
+        var fr = new FileReader();
+        return new Promise(function (resolve, reject) {
+            fr.onload = function () { return fr.result && typeof fr.result == "string" ? resolve(fr.result) : reject("image read error"); };
+            fr.onerror = function (e) { return reject(e); };
+            fr.readAsDataURL(file);
+        });
+    };
+    FileCompress.prototype.combineIgnoreMimeType = function (mimes) {
+        return new Set((this.imageMimeIgnores || []).concat(mimes || []));
+    };
+    FileCompress.prototype.turnPng = function (file, turnLargePngKB) {
+        if (turnLargePngKB && file.type === "image/png" && file.size > turnLargePngKB * 1024)
+            return "image/jpeg";
+        return file.type;
     };
     /**
+     * compress Image
+     * @param md5
+     * @param ignoreMimeType
+     * @param resultType
+     * @param file
+     * @param qualityPercent
+     * @param resolutionPercent
+     * @param turnLargePngKB
+     */
+    FileCompress.prototype.compress = function (_a) {
+        var md5 = _a.md5, ignoreMimeType = _a.ignoreMimeType, _b = _a.resultType, resultType = _b === void 0 ? "blob" : _b, file = _a.file, qualityPercent = _a.qualityPercent, resolutionPercent = _a.resolutionPercent, turnLargePngKB = _a.turnLargePngKB;
+        if (!this.checkFileFormat(file))
+            return Promise.reject([file.name, "image format error"]);
+        var ignoreMimes = this.combineIgnoreMimeType(ignoreMimeType || []);
+        var mimeType = this.turnPng(file, turnLargePngKB);
+        var fileMd5, result;
+        return this.readAsDataUrl(file)
+            .then(function (dataUrl) {
+            if (ignoreMimes.has(file.type))
+                return dataUrl;
+            return exports.compressDataUrl(dataUrl, mimeType, qualityPercent, resolutionPercent);
+        })
+            .then(function (dataUrl) {
+            fileMd5 = md5 ? md5_1.strToMd5(dataUrl) : undefined;
+            return resultType == "blob" ? exports.dataURLtoBlob(dataUrl) : dataUrl;
+        })
+            .then(function (result) {
+            return {
+                fileMd5: fileMd5,
+                result: result,
+                mimeType: mimeType,
+                postfix: exports.imageMimes[mimeType]
+            };
+        });
+    };
+    /**
+     * @deprecated
      *
      * @param file
      * @param qualityPercent 手动指定品质压缩比例 , 如：0.5 为50%
@@ -120,7 +185,7 @@ var FileCompress = /** @class */ (function () {
      */
     FileCompress.prototype.compressImgFromFile = function (file, qualityPercent, resolutionPercent) {
         var filename = file.name;
-        if (!this.checkFileFormat(file.name))
+        if (!this.checkFileFormat(file))
             return Promise.reject([filename, "image format error"]);
         filename = uniqueId_1.getUniqueId() + "." + contentType_1.getExtension(filename);
         return new Promise(function (resolve, reject) {

@@ -213,7 +213,7 @@ web图片压缩
 
 | Method                           | type                                                                    | desc                                                                                          |
 | ---------------------------------- | ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| FileCompress.compressImgFromFile | `(File,quality?:number,resolution?:number):Promise<[filename,dataUrl]>` | 压缩图片，返回随机图片名和DataUrl,`quality`和`resolution`取0至1，不指定时会按默认算法自动调整 |
+| FileCompress.compress |   | 压缩图片，返回随机图片名和DataUrl,`quality`和`resolution`取0至1，不指定时会按默认算法自动调整 |
 | dataURLtoArrayBuffer             | `(dataUrl):Uint8Array`                                                  | 转换dataUrl为`ArrayBuffer`                                                                    |
 | dataURLtoBlob                    | `(dataUrl):Promise<Blob>`                                               | 转换dataUrl为`blob`                                                                           |
 | compressDataUrl                  | `(dataUrl):Promise<dataUrl>`                                            | 压缩`dataUrl`                                                                                 |
@@ -233,6 +233,29 @@ fileCompress.compressImgFromFile(file).then(async([filename,dataUrl])=>{
 })
 
 ```
+fileCompress.compress(`CompressOpts`);
+
+### CompressOpts
+|key|type|desc|
+|---|---|---|
+|file|File|图片文件|
+|md5?|boolean|是否返回图片md5|
+|turnLargePngKB?|number|转换大于设置值的png图片为jpg. 为空时不处理|
+|ignoreMimeType?|string[]|对指定mimeType不进行转换|
+|resultType?|`blob` `dataUrl`|指定返回的压缩图片数据形式，默认为blob|
+|qualityPercent?|number|图片品质压缩比例(0-1),为空时，自动计算该值|
+|resolutionPercent?|number|图片分辨率压缩比例(0-1),为空时，自动计算该值|
+#### Example
+
+```js
+import {fileCompress} from "@ztwx/utils";
+fileCompress.compress({
+  file: ImgFile,
+  md5: true //返回图片压缩后的md5值 ,
+  
+}).then(result=>{})
+```
+
 Web Utils
 ---
 |Method| type | desc|
