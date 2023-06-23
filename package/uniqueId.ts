@@ -1,6 +1,6 @@
 class GetUniqueId {
-    b64Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789*~";
-    t=64;
+    b64Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+    t=62;
     to64(num: number): string {
         let str = "";
         let remainder;

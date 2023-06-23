@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getUniqueId = exports.uniqueId = void 0;
 var GetUniqueId = /** @class */ (function () {
     function GetUniqueId() {
-        this.b64Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789*~";
-        this.t = 64;
+        this.b64Table = "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM0123456789";
+        this.t = 62;
         this.preTimestamp = null;
         this.preUniqueTag = 0;
     }
