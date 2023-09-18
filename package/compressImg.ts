@@ -4,17 +4,17 @@ import {strToMd5} from "./data/md5";
 
 const switchQuality = (size: any) => {
     size = size / 1024;
-    if (size < 300) return 0.92;
-    if (size < 500) return 0.7;
-    if (500 <= size && size <= 1000) return 0.4;
-    if (1000 < size && size <= 2000) return 0.35;
-    if (2000 < size && size <= 4000) return 0.3;
-    if (4000 < size && size <= 6000) return 0.2;
-    if (6000 < size && size <= 7000) return 0.15;
-    if (size > 7000) return 0.1;
-    return 0.92;
+    if (size < 500) return 1;
+    if (size < 800) return 0.95;
+    if (size < 1200) return 0.9;
+    if (size < 1800) return 0.85;
+    if (size < 2500) return 0.8;
+    if (size < 3000) return 0.7;
+    if (size < 4000) return 0.55;
+    if (size < 6000) return 0.4;
+    return 0.25;
 };
-export const shouldQuality=(fileType:string)=>["image/jpeg","image/webp"].includes(fileType);
+export const shouldQuality=(fileType:string)=>["image/jpeg","image/jpg","image/webp"].includes(fileType);
 
 export const compressDataUrl = (b64: string,fileType:string="image/jpeg",qualityPercent?:number,resolutionPercent?:number): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -25,28 +25,34 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg",quality
             let
                 h = img.height,
                 w = img.width,
-                l = Math.max(w, h) / (w / h),
+                l = Math.sqrt(Math.pow(h,2)+Math.pow(w,2)),
                 percent = 1;
 
             if(resolutionPercent){
                 percent=resolutionPercent;
             }else{
-                if (l <= 1200 && l > 1000) {
+                if (l < 1500){
+                    percent=1;
+                }else if (l < 1800 ) {
+                    percent = 0.95;
+                }else if(l < 2200){
+                    percent = 0.92;
+                } else if (l < 2400) {
                     percent = 0.9
-                } else if (l > 1200 && l <= 1400) {
-                    percent = 0.85
-                } else if (l > 1400 && l <= 1500) {
+                } else if (l < 2800) {
+                    percent = 0.86;
+                } else if (l < 3300) {
+                    percent = 0.82;
+                } else if (l < 4000) {
                     percent = 0.75;
-                } else if (l > 1500 && l <= 1600) {
-                    percent = 0.7;
-                } else if (l > 1600 && l <= 1700) {
-                    percent = 0.65;
-                } else if (l > 1700 && l <= 2000) {
+                } else if (l < 5500) {
                     percent = 0.6;
-                } else if (l > 2000 && l <= 3000) {
-                    percent = 0.55;
-                } else if (l > 3000) {
+                } else if (l < 7000) {
                     percent = 0.5;
+                } else if (l < 8000) {
+                    percent = 0.45;
+                } else{
+                    percent = 0.25;
                 }
             }
             h= canvas.height = Math.ceil(h * percent);
