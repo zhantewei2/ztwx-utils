@@ -6,13 +6,13 @@ const switchQuality = (size: any) => {
     size = size / 1024;
     if (size < 500) return 1;
     if (size < 800) return 0.95;
-    if (size < 1200) return 0.9;
-    if (size < 1800) return 0.85;
-    if (size < 2500) return 0.8;
-    if (size < 3000) return 0.7;
-    if (size < 4000) return 0.55;
-    if (size < 6000) return 0.4;
-    return 0.25;
+    if (size < 1200) return 0.92;
+    if (size < 1800) return 0.88;
+    if (size < 2500) return 0.85;
+    if (size < 3000) return 0.75;
+    if (size < 4000) return 0.6;
+    if (size < 6000) return 0.5;
+    return 0.3;
 };
 export const shouldQuality=(fileType:string)=>["image/jpeg","image/jpg","image/webp"].includes(fileType);
 
@@ -25,28 +25,30 @@ export const compressDataUrl = (b64: string,fileType:string="image/jpeg",quality
             let
                 h = img.height,
                 w = img.width,
-                l = Math.sqrt(Math.pow(h,2)+Math.pow(w,2)),
+                l = Math.min(h,w),
                 percent = 1;
 
             if(resolutionPercent){
                 percent=resolutionPercent;
             }else{
-                if (l < 1500){
+                if (l < 1200){
                     percent=1;
-                }else if (l < 1800 ) {
+                }else if (l < 1600 ) {
                     percent = 0.95;
-                }else if(l < 2200){
+                }else if(l < 1900){
                     percent = 0.92;
-                } else if (l < 2400) {
+                } else if (l < 2200) {
                     percent = 0.9
-                } else if (l < 2800) {
-                    percent = 0.86;
-                } else if (l < 3300) {
+                } else if (l < 2500) {
+                    percent = 0.87;
+                } else if (l < 3000) {
+                    percent = 0.85;
+                } else if (l < 3200) {
                     percent = 0.82;
-                } else if (l < 4000) {
+                } else if (l < 3800) {
+                    percent = 0.80;
+                }else if (l < 4500) {
                     percent = 0.75;
-                } else if (l < 5500) {
-                    percent = 0.6;
                 } else if (l < 7000) {
                     percent = 0.5;
                 } else if (l < 8000) {
